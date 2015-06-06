@@ -1,0 +1,78 @@
+#!/bin/bash
+###
+# 2つの素数の最大公約数はいくつか計算する。
+# （シェルスクリプトで作ったバージョン）
+#
+# Usage: grdv 100 555
+###
+
+### 関数
+# エラー出力
+log_error(){
+        echo "ERROR: $1,  Usage: grdv 123 69" 1>&2
+        exit 1
+}
+# 数値かどうか判定する
+is_number(){
+	if [ $# -eq "1" ] ; then
+		expr "$1" + 1 > /dev/null 2>&1
+		if [ $? -ge 2 ] ; then
+			return 1;
+		fi
+		return 0;
+	fi
+	return 2;
+}
+
+### メイン処理
+# 引数の数を判定
+if [ $# -lt "2" ] ; then
+	log_error "This script needs 2 arguments." 1>&2
+	exit 1
+fi
+
+NUM_1=$1
+NUM_2=$2
+
+# 引数が数値かどうか判定
+is_number "${NUM_1}"; NUM_1_IS_NUMBER=$?
+is_number "${NUM_2}"; NUM_2_IS_NUMBER=$?
+if [ "${NUM_1_IS_NUMBER}" -ne 0 -o "${NUM_2_IS_NUMBER}" -ne 0 ] ; then
+	log_error "Any arguments may be not number."
+	exit 1
+fi
+
+# 引数がマイナスではないか判定
+if [ "${NUM_1}" -lt 0 -o "${NUM_2}" -lt 0 ]; then
+	log_error "Any arguments may be negative."
+	exit 1
+fi
+# 作業用変数に移し変える
+WORK_1="${NUM_1}"
+WORK_2="${NUM_2}"
+COUNT=0
+
+# 大きい引数を小さい引数で割り、どちらかが0になったら
+# もう片方が最大公約数らしい。
+# 参照：ユークリッドの互助法｜Wikipedia
+while true ; do
+	if [ "${WORK_1}" -eq 0 ]; then
+		echo "${WORK_2}"
+		exit 0
+	elif [ "${WORK_2}" -eq 0 ]; then
+		echo "${WORK_1}"
+		exit 0
+	elif [ "${WORK_1}" -gt "${WORK_2}" ]; then
+		WORK_1=`expr "${WORK_1}" % "${WORK_2}"`
+	else
+		WORK_2=`expr "${WORK_2}" % "${WORK_1}"`
+	fi
+
+	# この計算法で10000回を越えることはなさそうなので、
+	# 越えたら無限ループ対策として異常終了としておく
+	COUNT=`expr "${COUNT}" + 1`
+	if [ "${COUNT}" -gt 10000 ]; then
+		log_error "This program may have been to an infinite loop."
+		exit 1
+	fi
+done
