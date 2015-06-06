@@ -8,17 +8,17 @@ ERROR_EXIT () {
 	exit 1
 }
 
-ret='./14745110'
+ret=`./14745110`
 if [ $ret -eq 0 ]; then
         ERROR_EXIT "E001 : args count check is invalid."
 fi
 
-ret='./14745110 1'
+ret=`./14745110 1`
 if [ $ret -eq 0 ]; then
 	ERROR_EXIT "E002 : arg count check is invalid."
 fi
 
-ret='./14745110 a b'
+ret=`./14745110 a b`
 if [ $ret -eq 0 ]; then
         ERROR_EXIT "E003: arg num check is invalid."
 fi
