@@ -8,20 +8,20 @@ ERROR_EXIT () {
 	exit 1
 }
 
-ret=`./14745110`
-if [ $ret -eq 0 ]; then
-        ERROR_EXIT "E001 : args count check is invalid."
-fi
-
-ret=`./14745110 1`
-if [ $ret -eq 0 ]; then
-	ERROR_EXIT "E002 : arg count check is invalid."
-fi
-
-ret=`./14745110 a b`
-if [ $ret -eq 0 ]; then
-        ERROR_EXIT "E003: arg num check is invalid."
-fi
+#./14745110
+#if [ $? -eq 0 ]; then
+#        ERROR_EXIT "E001 : args count check is invalid."
+#fi
+#
+#./14745110 10
+#if [ $? -eq 0 ]; then
+#	ERROR_EXIT "E002 : arg count check is invalid."
+#fi
+#
+#./14745110 a b
+#if [ $? -eq 0 ]; then
+#        ERROR_EXIT "E003: arg num check is invalid."
+#fi
 
 ans=`./14745110 10 5`
 if [ $ans -ne 5 ]; then
