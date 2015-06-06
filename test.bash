@@ -8,7 +8,7 @@ ERROR_EXIT () {
 	exit 1
 }
 
-#./14745110
+./14745110
 #if [ $? -eq 0 ]; then
 #        ERROR_EXIT "E001 : args count check is invalid."
 #fi
